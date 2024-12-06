@@ -6,31 +6,32 @@ with open("Day6.txt", "r") as file:
     for i, row in enumerate(matrix):
         for j, col in enumerate(row):
             if col == "^":
-                start = complex(i, j)
-            coords[complex(i, j)] = matrix[i][j]
+                start = (i, j)
+            coords[(i, j)] = matrix[i][j]
 
 
-right = {
-    complex(0, 1): complex(1, 0),
-    complex(1, 0): complex(0, -1),
-    complex(0, -1): complex(-1, 0),
-    complex(-1, 0): complex(0, 1),
-}
+right = {(0, 1): (1, 0), (1, 0): (0, -1), (0, -1): (-1, 0), (-1, 0): (0, 1)}
+n, m = len(matrix), len(matrix[0])
+print(n, m, start)
 
 
 def puzzle1():
-    count = 0
+    visited = [[0 for col in row] for row in matrix]
     coord = start
-    dir = complex(-1, 0)
+    dir = (-1, 0)
     while coord in coords:
+        visited[coord[0]][coord[1]] = 1
         if coords[coord] == "#":
-            coord -= dir
+            visited[coord[0]][coord[1]] = 0
+            newX = coord[0] - dir[0]
+            newY = coord[1] - dir[1]
+            coord = (newX, newY)
             dir = right[dir]
-        else:
-            coord += dir
-            count += 1
+        newX = coord[0] + dir[0]
+        newY = coord[1] + dir[1]
+        coord = (newX, newY)
 
-    return count
+    return sum(sum(row) for row in visited)
 
 
 print(puzzle1())  # 4454
