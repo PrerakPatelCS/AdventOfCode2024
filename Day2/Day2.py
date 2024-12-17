@@ -45,4 +45,4 @@ def puzzle2():
 
 
 print(puzzle1())  # 686
-print(puzzle2())
+print(puzzle2())  # 717

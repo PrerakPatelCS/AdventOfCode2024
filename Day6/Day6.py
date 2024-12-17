@@ -6,32 +6,78 @@ with open("Day6.txt", "r") as file:
     for i, row in enumerate(matrix):
         for j, col in enumerate(row):
             if col == "^":
-                start = (i, j)
-            coords[(i, j)] = matrix[i][j]
+                start = complex(i, j)
+            coords[complex(i, j)] = matrix[i][j]
 
 
-right = {(0, 1): (1, 0), (1, 0): (0, -1), (0, -1): (-1, 0), (-1, 0): (0, 1)}
-n, m = len(matrix), len(matrix[0])
-print(n, m, start)
+right = {
+    complex(0, 1): complex(1, 0),
+    complex(1, 0): complex(0, -1),
+    complex(0, -1): complex(-1, 0),
+    complex(-1, 0): complex(0, 1),
+}
 
 
 def puzzle1():
-    visited = [[0 for col in row] for row in matrix]
+    visited = set()
     coord = start
-    dir = (-1, 0)
+    dir = complex(-1, 0)
     while coord in coords:
-        visited[coord[0]][coord[1]] = 1
         if coords[coord] == "#":
-            visited[coord[0]][coord[1]] = 0
-            newX = coord[0] - dir[0]
-            newY = coord[1] - dir[1]
-            coord = (newX, newY)
+            coord -= dir
             dir = right[dir]
-        newX = coord[0] + dir[0]
-        newY = coord[1] + dir[1]
-        coord = (newX, newY)
+        else:
+            visited.add(coord)
+            coord += dir
 
-    return sum(sum(row) for row in visited)
+    return len(visited)
 
 
-print(puzzle1())  # 4454
+def is_cycle(x):
+    visited = set()
+    coord = start
+    dir = complex(-1, 0)
+    while coord in coords:
+        if coords[coord] == "#" or coord == x:
+            coord -= dir
+            dir = right[dir]
+        else:
+            if (coord, dir) in visited:
+                return True
+            visited.add((coord, dir))
+            coord += dir
+
+    return False
+
+
+def possible_spots():
+    """
+    Make a list of coordinates that could make a cycle
+    """
+    visited = set()
+    coord = start
+    dir = complex(-1, 0)
+    while coord in coords:
+        if coords[coord] == "#":
+            coord -= dir
+            dir = right[dir]
+        else:
+            visited.add(coord)
+            coord += dir
+
+    return visited
+
+
+def puzzle2():
+    """
+    we can do is_cycle() for every change we do.
+    is cycle is easy, if we reach the same point with the same direction it is a cycle.
+    we only need to put an object on a block that the guard will pass through.
+    Further we only want to put a block if we know that it will hit another block
+    after turning right.
+    """
+    return sum(is_cycle(x) for x in possible_spots())
+
+
+# print(puzzle1())  # 4454
+print(puzzle2())  # 1503

@@ -1,4 +1,5 @@
 from collections import defaultdict
+from functools import cmp_to_key
 
 with open("Day5.txt", "r") as file:
     rules, updates = [], []
@@ -9,6 +10,13 @@ with open("Day5.txt", "r") as file:
             updates.append(list(map(int, line.split(","))))
 
 
+def make_rule_set():
+    before = defaultdict(set)
+    for a, b in rules:
+        before[a].add(b)
+    return before
+
+
 def puzzle1():
     """
     rules are that X|Y X must be before Y in an update.
@@ -17,10 +25,8 @@ def puzzle1():
     c | a does not exist and all those combinations.
     for each number we make a list of what the rules say it has to be before.
     """
-    before = defaultdict(set)
-    for a, b in rules:
-        before[a].add(b)
 
+    before = make_rule_set()
     total = 0
     for update in updates:
         valid = True
@@ -44,21 +50,15 @@ def puzzle2():
     Based on the rules make the correct update.
     """
 
+    def comparator(x, y):
+        if x == y:
+            return 0
+        return 1 if x in before[y] else -1
+
     def fix(update):
-        counts = defaultdict(int)
-        for num1 in update:
-            for num2 in update:
-                if num1 == num2:
-                    continue
-                elif num2 in before[num1]:
-                    counts[num1] += 1
+        return sorted(update, key=cmp_to_key(comparator))
 
-        return sorted(update, key=lambda x: counts[x])
-
-    before = defaultdict(set)
-    for a, b in rules:
-        before[a].add(b)
-
+    before = make_rule_set()
     total = 0
     for update in updates:
         valid = True
@@ -76,4 +76,4 @@ def puzzle2():
 
 
 # print(puzzle1())  # 5374
-print(puzzle2())  #
+print(puzzle2())  # 4260
