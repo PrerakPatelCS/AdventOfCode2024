@@ -102,8 +102,6 @@ def new_matrix():
         if matrix[i][j] == "@":
             start = (i, j)
 
-    print_matrix(matrix)
-
 
 def puzzle2():
     """
@@ -116,19 +114,10 @@ def puzzle2():
     def is_moveable(coord, move):
         if move in "<>":
             return horizontal_move(coord, dirs[move])
-        else:
-            return vertical_move(coord, dirs[move])
-        """
-        coord = add_coord(coord, move)
-        if not in_bounds(coord) or matrix[coord[0]][coord[1]] == "#":
-            return False
-        while in_bounds(coord) and matrix[coord[0]][coord[1]] in "[]":
-            coord = add_coord(coord, move)
-        if not in_bounds(coord) or matrix[coord[0]][coord[1]] == "#":
-            return False
-        matrix[coord[0]][coord[1]] = "O"
-        return True
-        """
+        if vertical_move_possible(coord, dirs[move]):
+            vertical_move(coord, dirs[move])
+            return True
+        return False
 
     def horizontal_move(coord, move):
         initial_col = coord[1]
@@ -147,7 +136,7 @@ def puzzle2():
             matrix[coord[0]][j], prev = prev, matrix[coord[0]][j]
         return True
 
-    def vertical_move(coord, move):
+    def vertical_move_possible(coord, move):
         """
         DFS to find if we can move.
         and then another dfs to do the move.
@@ -160,20 +149,41 @@ def puzzle2():
             return False
         if matrix[coord[0]][coord[1]] == ".":
             return True
+        if matrix[coord[0]][coord[1]] == "]":
+            return vertical_move_possible(coord, move) and vertical_move_possible(
+                (coord[0], coord[1] - 1), move
+            )
+        if matrix[coord[0]][coord[1]] == "[":
+            return vertical_move_possible(coord, move) and vertical_move_possible(
+                (coord[0], coord[1] + 1), move
+            )
 
         return False
+
+    def vertical_move(coord, move):
+        coord = add_coord(coord, move)
+        if matrix[coord[0]][coord[1]] == "]":
+            vertical_move(coord, move)
+            vertical_move((coord[0], coord[1] - 1), move)
+        if matrix[coord[0]][coord[1]] == "[":
+            vertical_move(coord, move)
+            vertical_move((coord[0], coord[1] + 1), move)
+        matrix[coord[0]][coord[1]] = matrix[coord[0] - move[0]][coord[1]]
+        matrix[coord[0] - move[0]][coord[1]] = "."
+
+        return
 
     coord = start
     for move in moves:
         if is_moveable(coord, move):
+
             matrix[coord[0]][coord[1]] = "."
             coord = add_coord(coord, dirs[move])
             matrix[coord[0]][coord[1]] = "@"
-        print_matrix(matrix)
 
     return calc_gps(matrix)
 
 
 # print(puzzle1())  # 1465152
 
-print(puzzle2())  #
+print(puzzle2())  # 1511259

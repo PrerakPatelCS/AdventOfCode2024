@@ -37,3 +37,26 @@ Advent Of Code 2024
 16. Find the fastest route from S to E, djikstras and then use DFS knowing the
     best route so you can find all of the fastest routes.
 17.
+
+# New Things
+
+Using Complex numbers as coordinates so you can add and multiply.
+But you lose the ability to compare like normal numbers so you have to still do
+that normally.
+
+Converting the matrix to a map so you do not need to check the bounds ever since
+it will just not be in the map.
+
+Using *list to unpack the list.
+
+Using yield to make a generating function.
+
+Using itertools.product to make looping through a matrix easy.
+
+Refresher on solving linear systems.
+
+Refresher on solving chinese remainder theorem and modulus arthimetic.
+
+Counting corners to calculate all the sides.
+
+Regex "\\d+" is very useful.
