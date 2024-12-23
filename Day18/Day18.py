@@ -75,6 +75,7 @@ print(puzzle2())
 Interesting Union Find soltion.
 Use union find on the falling bytes.
 Connect them 8 directionally.
-If top and bottom or left and right or bottom and right or top and left
-are connected then we cannot reach the end.
+The top and left walls are connects and any group that touches those are connected.
+If top and left walls connect with right and bottom walls ever then at that point 
+we cannot make it from 0,0 to n-1,m-1
 """

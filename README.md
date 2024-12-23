@@ -36,7 +36,30 @@ Advent Of Code 2024
     boxes from their edge.
 16. Find the fastest route from S to E, djikstras and then use DFS knowing the
     best route so you can find all of the fastest routes.
-17.
+17. Mini 3-bit computer, there are soltuions like a disassembler but I found a
+    pattern in the outputs and used ranges to find the answer.
+18. Bytes are falling on our map and we need to find the last time we can make
+    it out.
+    This is escape the spreading fire but with falling bytes and no spreading
+    fire.
+    Cool Union find solution.
+19. Find the number of ways to make a pattern from a dictionary, used a trie and
+    dfs and cached the patterns.
+20. We have a race track and want to enable cheats which can pass walls for
+    either 2 or 20 seconds.
+    This was pretty easy with our generating function.
+21. We have a number pad and 2 to 25 directional pads all controlled by robots.
+    We control the chain of robots through a directional pad manually.
+    This is a pretty clean recursive solution with caching but it was really
+    hard to visuallize what moves you had to do and how many you had to make
+    when testing on smaller inputs.
+    Only around 11k people got this.
+22. Monkey market, the monkeys make psuedorandom numbers, ask a monkey to look
+    for a sequence and it will sell when it finds that sequence, so I just
+    stored all sequences and their value and the max sequence is the answer.
+23.
+24.
+25.
 
 # New Things
 
