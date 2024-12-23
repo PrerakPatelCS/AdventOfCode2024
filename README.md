@@ -57,7 +57,9 @@ Advent Of Code 2024
 22. Monkey market, the monkeys make psuedorandom numbers, ask a monkey to look
     for a sequence and it will sell when it finds that sequence, so I just
     stored all sequences and their value and the max sequence is the answer.
-23.
+23. NP-complete problem the clique problem, find the biggest clique.
+    Solved it with finding the number of edges each neighbor has that has the
+    same edges as everyone else.
 24.
 25.
 
